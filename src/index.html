@@ -1,12 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
-  </head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>📚 Recomendador de Libros con Gemini</title>
+    
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f8f9fa; /* Fondo claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #343a40; /* Color de texto oscuro */
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #495057; /* Un tono de gris oscuro */
+            margin-bottom: 25px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box; /* Incluye padding en el ancho */
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff; /* Color primario azul */
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h4 {
+            margin-top: 30px;
+            color: #495057;
+            text-align: left;
+            padding: 15px;
+            background-color: #e9ecef; /* Fondo claro para el resultado */
+            border-radius: 8px;
+        }
+        /* Para mostrar la lista HTML de recomendaciones */
+        .prediction-box {
+            text-align: left;
+            margin-top: 20px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+        }
+    </style>
+</head>
 
-  <body>
-    <h1>Hello World</h1>
-  </body>
+<body>
+    <div class="container">
+        <h1>📚 Recomendador de Libros impulsado por Gemini</h1>
+
+        <form action="{{ url_for('predict') }}" method="post">
+            <input type="text" name="user_query" 
+                   placeholder="Ej: 'Fantasía épica con mucha magia y un antihéroe'" 
+                   required="required" autofocus /><br>
+
+            <button type="submit">Obtener Recomendaciones</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="prediction-box">
+            <h4 style="color: #007bff;">
+                {{ prediction_text | safe }}
+            </h4>
+        </div>
+        {% endif %}
+    </div>
+</body>
 </html>
