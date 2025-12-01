@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictor de Género</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --background-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+            --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1, h2, h3 {
+            color: var(--text-color);
+            font-weight: 700;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        textarea, input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        textarea:focus, input[type="number"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #e9ecef;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: none; /* Oculto por defecto */
+        }
+        
+        #result h2 {
+            border: none;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: 700;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+
+        .summary-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .summary-list li {
+            background-color: #e9ecef;
+            margin-bottom: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            border-left: 5px solid var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Predictor de Género</h1>
+        
+        <div class="card">
+            <h2>Generador de Datos de Prueba</h2>
+            <label for="num-people">Número de personas a simular:</label>
+            <input type="number" id="num-people" value="50" style="margin-bottom: 1rem;">
+            <button type="button" id="generate-btn">Generar Edades Aleatorias</button>
+        </div>
+
+        <div class="card">
+            <h2>Encontrar el Género Más Popular</h2>
+            <p>Pega una lista de edades separadas por comas para descubrir qué género de libro será el más solicitado.</p>
+            <form id="prediction-form">
+                <label for="ages">Introduce las edades (separadas por comas):</label>
+                <textarea id="ages" name="ages" required placeholder="Ej: 25, 41, 16, 18, 30, 25" rows="4"></textarea>
+                <button type="submit" style="margin-top: 1rem;">Encontrar el Género Más Popular</button>
+            </form>
+            <div id="result"></div>
+        </div>
+
+        <div class="card">
+            <h2>Análisis de Predicciones</h2>
+            <h3>Géneros Más Populares</h3>
+            {% if popular_genres %}
+                <ol class="summary-list">
+                    {% for genre, count in popular_genres %}
+                        <li><strong>{{ genre }}</strong>: Predicho {{ count }} veces</li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <p>Aún no se han hecho predicciones.</p>
+            {% endif %}
+
+            <h3 style="margin-top: 2rem;">Registro Completo</h3>
+            {% if predictions %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha y Hora</th>
+                            <th>Edad Consultada</th>
+                            <th>Género Predicho</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prediction in predictions %}
+                            <tr>
+                                <td>{{ prediction.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ prediction.age }}</td>
+                                <td>{{ prediction.predicted_genre }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>El registro de predicciones está vacío.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', function() {
+            const numPeople = parseInt(document.getElementById('num-people').value) || 50;
+            const agesTextarea = document.getElementById('ages');
+            let randomAges = [];
+            for (let i = 0; i < numPeople; i++) {
+                const randomAge = Math.floor(Math.random() * (80 - 10 + 1)) + 10;
+                randomAges.push(randomAge);
+            }
+            agesTextarea.value = randomAges.join(', ');
+        });
+
+        document.getElementById('prediction-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const agesInput = document.getElementById('ages').value;
+            const resultDiv = document.getElementById('result');
+            
+            const ages = agesInput.split(',').map(age => parseInt(age.trim())).filter(age => !isNaN(age));
+
+            if (ages.length === 0) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = 'Por favor, introduce una lista de edades válida.';
+                return;
+            }
+
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = "Analizando grupo...";
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ages: ages })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.most_popular_genre) {
+                    resultDiv.innerHTML = `<h2>Género Popular: ${data.most_popular_genre}</h2>`;
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    resultDiv.innerHTML = 'Error: No se pudo determinar el género más popular.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultDiv.innerHTML = 'Ocurrió un error al contactar con el servidor.';
+            });
+        });
+    </script>
+</body>
+</html>
