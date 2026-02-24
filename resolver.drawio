@@ -1,0 +1,27 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0" version="29.5.2">
+  <diagram name="Página-1" id="PM-d4ZkGADkbqnxseWIf">
+    <mxGraphModel dx="1118" dy="632" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="HRjQag_SDoo_XGwnuj2V-5" edge="1" parent="1" source="HRjQag_SDoo_XGwnuj2V-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="HRjQag_SDoo_XGwnuj2V-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="339.89473684210543" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HRjQag_SDoo_XGwnuj2V-4" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" value="obtener_datos" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="HRjQag_SDoo_XGwnuj2V-9" edge="1" parent="1" source="HRjQag_SDoo_XGwnuj2V-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="HRjQag_SDoo_XGwnuj2V-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HRjQag_SDoo_XGwnuj2V-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Mostrar sistema digitado en pantalla" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="HRjQag_SDoo_XGwnuj2V-8" parent="1" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" value="Llamar metodo_igualacion" vertex="1">
+          <mxGeometry height="80" width="130" x="275" y="500" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
